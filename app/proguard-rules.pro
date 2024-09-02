@@ -37,3 +37,5 @@
 -keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite* {
    <fields>;
 }
+
+-dontwarn org.slf4j.impl.StaticLoggerBinder
