@@ -22,7 +22,18 @@ class FeedPagingSource(
         val page = params.key ?: 0
 
         return try {
-            val list = onGetFeedList(userId, groupId, page + 1, params.loadSize)
+            val list = onGetFeedList(userId, groupId, page, params.loadSize)
+
+            if (list.page == 0L) {
+                Timber.tag("FeedPagingSource").d("0-${list.totalCount} duplicate")
+                return LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = if (page == 0) null else page - 1,
+                    nextKey = page + 1
+                )
+            }
+
+            Timber.tag("FeedPagingSource").d("%s", list.items.joinToString("\n") { "${list.page}-${list.totalCount} ${it.domainIdOrBlogId}_${it.logNo} : ${it.title}" })
 
             LoadResult.Page(
                 data = list.items,

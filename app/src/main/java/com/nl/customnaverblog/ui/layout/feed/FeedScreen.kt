@@ -79,7 +79,7 @@ fun FeedScreen(
     val pullRefreshState = rememberPullToRefreshState()
 
     val pager = if (userId.isNotEmpty()) {
-        viewModel.feedPager(userId, 0).collectAsLazyPagingItems(scope.coroutineContext)
+        viewModel.feedPager(userId, 0).collectAsLazyPagingItems()
     } else null
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -137,7 +137,7 @@ fun FeedScreen(
                     ) {
                         items(
                             count = pager.itemCount,
-                            key = pager.itemKey { item -> item.logNo },
+                            key = pager.itemKey { item -> "${item.domainIdOrBlogId}_${item.logNo}" },
                             contentType = pager.itemContentType { item ->
                                 if (item.hasThumbnail) 1 else 0
                             }

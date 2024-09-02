@@ -24,8 +24,8 @@ class FeedViewModel @Inject constructor(
     fun feedPager(userId: String, groupId: Int): Flow<PagingData<Feed.Item>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10, // 네이버 블로그 고정값
-                prefetchDistance = 5,
+                pageSize = 20,
+                prefetchDistance = 8,
                 enablePlaceholders = false,
             ),
             pagingSourceFactory = {
